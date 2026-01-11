@@ -42,6 +42,30 @@ export async function getPopularMovies(): Promise<Movie[]> {
   return data.results || [];
 }
 
+// Top Rated
+export async function getTopRatedMovies(): Promise<Movie[]> {
+  if (!API_KEY) {
+    throw new Error(
+      "TMDB API key is missing. Please set NEXT_PUBLIC_TMDB_API_KEY in your .env.local file"
+    );
+  }
+
+  const res = await fetch(
+    `${BASE_URL}/movie/top_rated?api_key=${API_KEY}`,
+    { next: { revalidate: 3600 } } // cache for 1 hour
+  );
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(
+      `Failed to fetch top rated movies: ${res.status} ${res.statusText}. ${errorText}`
+    );
+  }
+
+  const data = await res.json();
+  return data.results || [];
+}
+
 
 // movie ID
 export async function getMovieById(id: string) {

@@ -1,11 +1,11 @@
-import React from "react";
+import { getTopRatedMovies } from "@/lib/tmdb";
+import MovieGrid from "@/components/MovieGrid";
 
-const TopRatedPage = () => {
+export default async function TopRated() {
+  const topRated = await getTopRatedMovies();
   return (
-    <div>
-      <h1>Top Rated Movies</h1>
+    <div className="">
+      <MovieGrid title="Top Rated Movies 🏆" movies={topRated} />
     </div>
   );
-};
-
-export default TopRatedPage; // <-- Ye mandatory hai
+}
