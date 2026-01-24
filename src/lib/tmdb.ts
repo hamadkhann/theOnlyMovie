@@ -66,7 +66,6 @@ export async function getTopRatedMovies(): Promise<Movie[]> {
   return data.results || [];
 }
 
-
 // movie ID
 export async function getMovieById(id: string) {
   try {
@@ -87,34 +86,40 @@ export async function getMovieById(id: string) {
   }
 }
 
-
 //movie trailer api
 
 export async function getMovieVideos(movieId: string) {
-    const res = await fetch(
-        `${BASE_URL}/movie/${movieId}/videos?api_key=${API_KEY}`
-    );
-    
-    if (!res.ok) {
-        throw new Error("Failed to fetch movie videos");
-    }
-    
-    const data = await res.json();
-    return data.results;
+  const res = await fetch(
+    `${BASE_URL}/movie/${movieId}/videos?api_key=${API_KEY}`
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch movie videos");
+  }
+
+  const data = await res.json();
+  return data.results;
 }
 
-// Search input field api 
+// Search input field api
 
 // Search movies by query
 export async function searchMovies(query: string) {
-    const res = await fetch(
-        `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${query}`
-    );
-    
-    if (!res.ok) {
-        throw new Error("Failed to search movies");
-    }
-    
-    const data = await res.json();
-    return data.results; // Array of movies return karega
+  const res = await fetch(
+    `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${query}`
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to search movies");
+  }
+
+  const data = await res.json();
+  return data.results; // Array of movies return karega
+}
+
+// get recommendation
+
+export async function getRecommendations(mood?: string) {
+  const res = await fetch(`/api/recommendations${mood ? `?mood=${mood}` : ""}`);
+  return res.json();
 }
